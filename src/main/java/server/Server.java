@@ -6,19 +6,18 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 
 public class Server {
     public static void main(String args[]) {
-        try {
-            TProcessor tprocessor = new HelloService.Processor<HelloService.Iface>(new HelloServiceImpl());
-            TServerSocket serverTransport = new TServerSocket(50005);
-            TServer.Args tArgs = new TServer.Args(serverTransport);
-            tArgs.protocolFactory(new TBinaryProtocol.Factory());
-            TServer server = new TSimpleServer(tArgs);
+        try{
+            TProcessor tProcessor = new HelloService.Processor<HelloService.Iface>(new HelloServiceImpl());
+            TServerTransport serverTransport = new TServerSocket(50006);
+            TServer server = new TSimpleServer(new TServer.Args(serverTransport).processor(tProcessor));
+            System.out.println("Service startup success.....");
             server.serve();
-            System.out.println("服务端开启....");
-        } catch (TTransportException e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

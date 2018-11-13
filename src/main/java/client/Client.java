@@ -13,7 +13,7 @@ public class Client {
 
         TTransport transport = null;
         try {
-            transport = new TSocket("localhost", 50005);
+            transport = new TSocket("localhost", 50006);
             TProtocol protocol = new TBinaryProtocol(transport);
             HelloService.Client client = new HelloService.Client(protocol);
             transport.open();
